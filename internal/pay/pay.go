@@ -17,6 +17,9 @@ type Service struct {
 
 func (s *Service) CreatePayment(currency string, amount int) (*Payment, error) {
 	addr, err := s.btc.GetNewAddress()
+	if err != nil {
+    	return nil, err
+	}
 
 	payment := &Payment{
 		Currency: currency,
