@@ -34,5 +34,15 @@ func createPayment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if req.Currency == "" {
+		http.Error(w, "invalid currency", http.StatusBadRequest)
+		return
+	}
+
+	if req.Amount <= 0 {
+		http.Error(w, "invalid amount value", http.StatusBadRequest)
+		return
+	}
+
 	w.WriteHeader(http.StatusCreated)
 }
