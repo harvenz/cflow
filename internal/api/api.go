@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -46,6 +47,14 @@ func createPayment(service *pay.Service) http.HandlerFunc {
 			http.Error(w, "invalid amount value", http.StatusBadRequest)
 			return
 		}
+
+		payment, err := service.CreatePayment(req.Currency, req.Amount)
+		if err != nil {
+	    http.Error(w, err.Error(), http.StatusInternalServerError)
+	    return
+		}
+
+		fmt.Println(payment)
 
 		w.WriteHeader(http.StatusCreated)
 	}

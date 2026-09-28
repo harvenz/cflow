@@ -15,6 +15,13 @@ type Service struct {
 	btc *btc.Client
 }
 
+// create payment service with bitcoin client
+func NewService(btcClient *btc.Client) *Service {
+    return &Service{
+        btc: btcClient,
+    }
+}
+
 func (s *Service) CreatePayment(currency string, amount int) (*Payment, error) {
 	addr, err := s.btc.GetNewAddress()
 	if err != nil {
