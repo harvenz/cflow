@@ -1,4 +1,4 @@
-module github.com/mlloc/cflow
+module github.com/harvenz/txd
 
 go 1.26.2
 

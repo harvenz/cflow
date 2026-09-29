@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/mlloc/cflow/internal/pay"
+	"github.com/harvenz/txd/internal/pay"
 )
 
 type PaymentRequest struct {

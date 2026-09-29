@@ -4,10 +4,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mlloc/cflow/internal/api"
-	"github.com/mlloc/cflow/internal/btc"
-	"github.com/mlloc/cflow/internal/env"
-	"github.com/mlloc/cflow/internal/pay"
+	"github.com/harvenz/txd/internal/api"
+	"github.com/harvenz/txd/internal/btc"
+	"github.com/harvenz/txd/internal/env"
+	"github.com/harvenz/txd/internal/pay"
 )
 
 func main() {

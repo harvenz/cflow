@@ -1,6 +1,6 @@
 package pay
 
-import "github.com/mlloc/cflow/internal/btc"
+import "github.com/harvenz/txd/internal/btc"
 
 type Payment struct {
 	Id       string

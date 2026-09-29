@@ -3,7 +3,7 @@ package btc
 import (
 	"github.com/btcsuite/btcd/btcjson"
 	"github.com/btcsuite/btcd/rpcclient"
-	"github.com/mlloc/cflow/internal/env"
+	"github.com/harvenz/txd/internal/env"
 )
 
 type Client struct {
