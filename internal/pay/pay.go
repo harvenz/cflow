@@ -6,18 +6,10 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/harvenz/txd/internal/btc"
+	"github.com/harvenz/txd/internal/model"
 	"github.com/harvenz/txd/internal/rate"
+	"github.com/harvenz/txd/internal/storage"
 )
-
-type Payment struct {
-    Id       string `json:"id"`
-    Currency string `json:"currency"`
-    Amount   int    `json:"amount"`
-	Satoshis int64  `json:"satoshis"`
-    Address  string `json:"address"`
-    Status   string `json:"status"`
-    TXID     string `json:"txid"`
-}
 
 type Service struct {
 	btc *btc.Client
@@ -30,7 +22,7 @@ func NewService(btcClient *btc.Client) *Service {
     }
 }
 
-func (s *Service) CreatePayment(currency string, amount int) (*Payment, error) {
+func (s *Service) CreatePayment(currency string, amount int) (*model.Payment, error) {
 	addr, err := s.btc.GetNewAddress()
 	if err != nil {
     	return nil, err
@@ -56,7 +48,7 @@ func (s *Service) CreatePayment(currency string, amount int) (*Payment, error) {
 	satoshis := int64(btc * 100_000_000)
 
 
-	payment := &Payment{
+	payment := &model.Payment{
 		Id: uuid.NewString(),
 		Currency: currency,
 		Amount: amount,
@@ -65,6 +57,8 @@ func (s *Service) CreatePayment(currency string, amount int) (*Payment, error) {
 		Status: "pending",
 	}
 
-	// string
+	// save payment to storage
+	storage.SavePayment(payment)
+
 	return payment, err
 }

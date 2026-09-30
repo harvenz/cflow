@@ -42,5 +42,8 @@ func (c *Client) GetPrice(currency string) (string, error) {
 		return "", err
 	}
 
+	// string
+
+	
 	return data.Data.Amount, nil
 }
