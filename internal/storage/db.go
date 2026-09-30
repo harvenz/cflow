@@ -8,27 +8,41 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func SavePayment(payment *model.Payment) {
+func SavePayment(payment *model.Payment) error {
 	db, err := sql.Open("sqlite3", "./txd.db")
-	if err != nil {
-		log.Fatal(err)
-	}
+		if err != nil {
+			log.Fatal(err)
+		}
 
 	defer db.Close()
 	
 	stmt := `
-    CREATE TABLE IF NOT EXISTS transactions (
-        id INTEGER NOT NULL PRIMARY KEY,
-        currency TEXT NOT NULL,
-		amount INTEGER NOT NULL,
-		satoshis INTEGER NOT NULL,
-		address TEXT NOT NULL,
-		status TEXT NOT NULL,
-		txid TEXT
-    );
-    `
-	_, err = db.Exec(stmt)
+	INSERT INTO transactions (
+		id,
+		currency,
+		amount,
+		satoshis,
+		address,
+		status,
+		txid
+	)
+	VALUES (?, ?, ?, ?, ?, ?, ?)
+	`
+
+	_, err = db.Exec(
+		stmt,
+		payment.Id,
+		payment.Currency,
+		payment.Amount,
+		payment.Satoshis,
+		payment.Address,
+		payment.Status,
+		payment.TXID,
+	)
+
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	return err
 }
