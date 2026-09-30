@@ -1,6 +1,9 @@
 package pay
 
-import "github.com/harvenz/txd/internal/btc"
+import (
+	"github.com/google/uuid"
+	"github.com/harvenz/txd/internal/btc"
+)
 
 type Payment struct {
 	Id       string
@@ -29,6 +32,7 @@ func (s *Service) CreatePayment(currency string, amount int) (*Payment, error) {
 	}
 
 	payment := &Payment{
+		Id: uuid.NewString(),
 		Currency: currency,
 		Amount: amount,
 		Address: addr,
