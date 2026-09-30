@@ -1,14 +1,19 @@
 package pay
 
 import (
+	"log"
+	"strconv"
+
 	"github.com/google/uuid"
 	"github.com/harvenz/txd/internal/btc"
+	"github.com/harvenz/txd/internal/rate"
 )
 
 type Payment struct {
     Id       string `json:"id"`
     Currency string `json:"currency"`
     Amount   int    `json:"amount"`
+	Satoshis int64  `json:"satoshis"`
     Address  string `json:"address"`
     Status   string `json:"status"`
     TXID     string `json:"txid"`
@@ -31,13 +36,35 @@ func (s *Service) CreatePayment(currency string, amount int) (*Payment, error) {
     	return nil, err
 	}
 
+	// get current bitcoin price
+	rate := rate.Client{}
+	price, err := rate.GetPrice(currency)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// parse bitcoin price
+	priceFloat, err := strconv.ParseFloat(price, 64)
+	if err != nil {
+    	log.Fatal(err)
+	}
+
+	// calculate bitcoin amount
+	btc := float64(amount) / priceFloat
+
+	// convert bitcoin to satoshis
+	satoshis := int64(btc * 100_000_000)
+
+
 	payment := &Payment{
 		Id: uuid.NewString(),
 		Currency: currency,
 		Amount: amount,
+		Satoshis: satoshis,
 		Address: addr,
 		Status: "pending",
 	}
 
+	// string
 	return payment, err
 }
