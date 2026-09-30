@@ -8,11 +8,15 @@ import (
 	"github.com/harvenz/txd/internal/btc"
 	"github.com/harvenz/txd/internal/env"
 	"github.com/harvenz/txd/internal/pay"
+	"github.com/harvenz/txd/internal/storage"
 )
 
 func main() {
 	// load environment configuration
     cfg := env.Load()
+
+    // prepare database
+    storage.PrepareDB()
 
 	// create bitcoin core client
     client, err := btc.NewClient(cfg)

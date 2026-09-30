@@ -17,7 +17,7 @@ func SavePayment(payment *model.Payment) error {
 	defer db.Close()
 	
 	stmt := `
-	INSERT INTO transactions (
+	INSERT INTO payments (
 		id,
 		currency,
 		amount,
