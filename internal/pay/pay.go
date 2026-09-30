@@ -6,12 +6,12 @@ import (
 )
 
 type Payment struct {
-	Id       string
-	Currency string
-	Amount   int
-	Address  string
-	Status   string
-	TXID     string
+    Id       string `json:"id"`
+    Currency string `json:"currency"`
+    Amount   int    `json:"amount"`
+    Address  string `json:"address"`
+    Status   string `json:"status"`
+    TXID     string `json:"txid"`
 }
 
 type Service struct {

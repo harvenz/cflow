@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -54,8 +53,10 @@ func createPayment(service *pay.Service) http.HandlerFunc {
 	    return
 		}
 
-		fmt.Println(payment)
-
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
+
+		// encode payment and write it to the response
+		json.NewEncoder(w).Encode(payment)
 	}
 }
