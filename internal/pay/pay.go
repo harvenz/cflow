@@ -62,3 +62,12 @@ func (s *Service) CreatePayment(currency string, amount int) (*model.Payment, er
 
 	return payment, err
 }
+
+func (s *Service) ListPayments () ([]*model.Payment, error) {
+	payments, err := storage.ListPayments()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return payments, err
+}

@@ -47,6 +47,50 @@ func SavePayment(payment *model.Payment) error {
 	return err
 }
 
+func ListPayments() ([]*model.Payment, error) {
+	db, err := sql.Open("sqlite3", "./txd.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+	
+	stmt := `
+	SELECT * FROM payments
+	`
+
+	row, _ := db.Query(stmt)
+	
+	payments := []*model.Payment{}
+
+	for row.Next()  {
+		payment := &model.Payment{}
+
+		err := row.Scan(
+			&payment.Id,
+			&payment.Currency,
+			&payment.Amount,
+			&payment.Satoshis,
+			&payment.Address,
+			&payment.Status,
+			&payment.TXID,
+		)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		payments = append(payments, payment)
+	}
+
+	err = row.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return payments, err
+}
+
 func GetPayment(id string) (*model.Payment, error) {
 	db, err := sql.Open("sqlite3", "./txd.db")
 	if err != nil {
