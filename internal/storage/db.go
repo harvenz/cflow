@@ -46,3 +46,35 @@ func SavePayment(payment *model.Payment) error {
 
 	return err
 }
+
+func GetPayment(id string) (*model.Payment, error) {
+	db, err := sql.Open("sqlite3", "./txd.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+	
+	stmt := `
+	SELECT * FROM payments WHERE id = ?
+	`
+
+	row := db.QueryRow(stmt, id)
+
+	payment := &model.Payment{}
+	err = row.Scan(
+		&payment.Id,
+		&payment.Currency,
+		&payment.Amount,
+		&payment.Satoshis,
+		&payment.Address,
+		&payment.Status,
+		&payment.TXID,
+	)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return payment, err
+}
