@@ -71,3 +71,12 @@ func (s *Service) ListPayments () ([]*model.Payment, error) {
 
 	return payments, err
 }
+
+func (s *Service) GetPayment (id string) (*model.Payment, error) {
+	payment, err := storage.GetPayment(id)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return payment, err
+}
